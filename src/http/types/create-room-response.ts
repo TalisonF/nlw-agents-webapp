@@ -1,3 +1,3 @@
-export type CreateRoomResponse = Array<{
+export type CreateRoomResponse = {
   roomId: string;
-}>;
+};
