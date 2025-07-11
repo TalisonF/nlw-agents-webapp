@@ -1,13 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRooms } from '@/http/use-rooms';
 import { dayjs } from '@/lib/dayjs';
 
@@ -16,10 +10,7 @@ export function RoomList() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Salas Recentes</CardTitle>
-        <CardDescription>
-          Acesso rápido para as salas criadas recentemente
-        </CardDescription>
+        <CardTitle>Salas criadas</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {data?.map((room) => {
@@ -31,9 +22,12 @@ export function RoomList() {
             >
               <div className="flex-1 flex-col gap-1">
                 <h3 className="font-medium ">{room.name}</h3>
+                <h3 className="mb-1 text-muted-foreground text-sm">
+                  {room.id}
+                </h3>
                 <div className="flex items-center gap-2">
                   <Badge className=" text-xs" variant="secondary">
-                    {dayjs(room.createdAt).toNow()}
+                    {dayjs(room.createdAt).fromNow()}
                   </Badge>
                   <Badge className=" text-xs" variant="secondary">
                     {room.questionsCount} pergunta(s)

@@ -1,7 +1,8 @@
-import { ArrowLeft, Radio } from 'lucide-react';
+import { ArrowLeft, Upload } from 'lucide-react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { QuestionForm } from '@/components/question-form';
 import { QuestionList } from '@/components/question-list';
+import { RoomSummary } from '@/components/room-summary';
 import { Button } from '@/components/ui/button';
 
 type RoomParams = {
@@ -16,7 +17,7 @@ export function Room() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen">
       <div className="container mx-auto max-w-4xl px-4 py-8">
         <div className="mb-8">
           <div className="mb-4 flex items-center justify-between">
@@ -26,10 +27,10 @@ export function Room() {
                 Voltar ao Início
               </Button>
             </Link>
-            <Link to={`/room/${params.roomId}/audio`}>
+            <Link to={`/room/${params.roomId}/dados`}>
               <Button className="flex items-center gap-2" variant="secondary">
-                <Radio className="size-4" />
-                Gravar Áudio
+                <Upload className="size-4" />
+                Enviar dados para I.A
               </Button>
             </Link>
           </div>
@@ -40,8 +41,8 @@ export function Room() {
             Faça perguntas e receba respostas com IA
           </p>
         </div>
-
-        <div className="mb-8">
+        <RoomSummary roomId={params.roomId} />
+        <div className="my-8">
           <QuestionForm roomId={params.roomId} />
         </div>
         <QuestionList roomId={params.roomId} />

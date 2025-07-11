@@ -15,8 +15,6 @@ interface QuestionItemProps {
 }
 
 export function QuestionItem({ question }: QuestionItemProps) {
-  const isGenerating = !question.isGeneratingAnswer;
-
   return (
     <Card>
       <CardContent>
@@ -65,7 +63,7 @@ export function QuestionItem({ question }: QuestionItemProps) {
           )}
           <div className="flex justify-end">
             <span className="text-muted-foreground text-xs">
-              {dayjs(question.createAt).toNow()}
+              {dayjs(question.createAt).fromNow()}
             </span>
           </div>
         </div>
