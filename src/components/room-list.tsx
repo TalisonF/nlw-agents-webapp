@@ -23,7 +23,7 @@ export function RoomList() {
               <div className="flex-1 flex-col gap-1">
                 <h3 className="font-medium ">{room.name}</h3>
                 <h3 className="mb-1 text-muted-foreground text-sm">
-                  {room.id}
+                  {room.description}
                 </h3>
                 <div className="flex items-center gap-2">
                   <Badge className=" text-xs" variant="secondary">

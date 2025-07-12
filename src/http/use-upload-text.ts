@@ -6,7 +6,7 @@ export function useUploadRoom(roomId: string) {
   return useMutation({
     mutationFn: async (data: UploadTextRequest) => {
       const response = await fetch(
-        `http://localhost:3334/rooms/${roomId}/text`,
+        `http://localhost:3333/rooms/${roomId}/text`,
         {
           method: 'POST',
           headers: {
