@@ -1,13 +1,6 @@
 /** biome-ignore-all lint/suspicious/noConsole: dev */
 
-import {
-  AudioLines,
-  Radio,
-  Radius,
-  RefreshCcwDot,
-  RefreshCw,
-  StopCircle,
-} from 'lucide-react';
+import { Radio, Radius, StopCircle } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
