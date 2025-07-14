@@ -4,10 +4,7 @@ export function Navbar() {
   return (
     <nav className="">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
-        <a
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-          href="https://flowbite.com/"
-        >
+        <div className="flex items-center space-x-3 rtl:space-x-reverse">
           {/** biome-ignore lint/performance/noImgElement: vite rule unnecessary */}
           <img
             alt="Let Me ask Logo"
@@ -17,7 +14,7 @@ export function Navbar() {
           <span className="self-center whitespace-nowrap font-semibold text-2xl dark:text-white">
             Let me ask!
           </span>
-        </a>
+        </div>
         <ModeToggle />
       </div>
     </nav>

@@ -6,7 +6,7 @@ export function useUploadRoom(roomId: string) {
   return useMutation({
     mutationFn: async (data: UploadTextRequest) => {
       const response = await fetch(
-        `http://localhost:3333/rooms/${roomId}/text`,
+        `${import.meta.env.VITE_API_BASE_URL}/rooms/${roomId}/text`,
         {
           method: 'POST',
           headers: {

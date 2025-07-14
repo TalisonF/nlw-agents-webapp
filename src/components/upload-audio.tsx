@@ -96,7 +96,7 @@ export function RecordAudio({ roomId }: RecordAudioProps) {
     formData.append('file', audioForUpload, 'audio.webm');
 
     const response = await fetch(
-      `http://localhost:3333/rooms/${roomId}/audio`,
+      `${import.meta.env.VITE_API_BASE_URL}/rooms/${roomId}/audio`,
       {
         method: 'POST',
         body: formData,
