@@ -8,6 +8,8 @@ RUN npm install --frozen-lockfile
 
 COPY . .
 
+ENV VITE_API_BASE_URL=http://localhost:3333
+
 RUN npm run build
 
 FROM nginx:alpine
