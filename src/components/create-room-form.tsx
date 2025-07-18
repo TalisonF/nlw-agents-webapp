@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod/v4';
 import { useCreateRoom } from '@/http/use-create-room';
@@ -39,6 +40,7 @@ export function CreateRoomForm() {
     },
   });
 
+  const { isSubmitting } = createRoomForm.formState;
   async function handleCreateRoom({ name, description }: CreateRoomFormData) {
     await createRoom({
       name,
@@ -69,7 +71,11 @@ export function CreateRoomForm() {
                   <FormItem>
                     <FormLabel>Nome da sala</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Digite o nome da sala" />
+                      <Input
+                        {...field}
+                        disabled={isSubmitting}
+                        placeholder="Digite o nome da sala"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -84,15 +90,19 @@ export function CreateRoomForm() {
                   <FormItem>
                     <FormLabel>Descrição</FormLabel>
                     <FormControl>
-                      <Textarea {...field} />
+                      <Textarea disabled={isSubmitting} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 );
               }}
             />
-            <Button className="w-full" type="submit">
-              Criar sala
+            <Button className="w-full" disabled={isSubmitting} type="submit">
+              {isSubmitting ? (
+                <Loader className="size-4 animate-spin" />
+              ) : (
+                'Criar sala'
+              )}
             </Button>
           </form>
         </Form>

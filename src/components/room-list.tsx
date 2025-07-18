@@ -15,11 +15,8 @@ export function RoomList() {
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {isFetching && (
-          <div className="flex items-center space-x-2">
-            <Loader className="size-4 animate-spin text-primary" />
-            <span className="text-primary text-sm italic">
-              Buscando salas...
-            </span>
+          <div className="flex flex-row justify-center space-x-2">
+            <Loader className="size-8 animate-spin text-primary" />
           </div>
         )}
         {isFetched && data.length === 0 && (
