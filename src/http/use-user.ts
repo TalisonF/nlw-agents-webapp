@@ -1,23 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
 import { getToken } from '@/lib/token';
-import type { GetRoomsResponse } from './types/get-rooms-response';
+import type { userResponse } from './types/user-response';
 
-export function useRooms() {
+export function useUser() {
   return useQuery({
-    queryKey: ['get-rooms'],
+    queryKey: ['get-user'],
     queryFn: async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/rooms`,
+        `${import.meta.env.VITE_API_BASE_URL}/user`,
         {
           headers: {
             access_token: getToken(),
           },
         }
       );
+
       if (response.status !== 200) {
-        return [];
+        return { id: '', name: '', email: '' };
       }
-      const result: GetRoomsResponse = await response.json();
+
+      const result: userResponse = await response.json();
 
       return result;
     },

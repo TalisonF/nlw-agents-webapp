@@ -7,7 +7,7 @@ import { dayjs } from '@/lib/dayjs';
 import { Alert, AlertTitle } from './ui/alert';
 
 export function RoomList() {
-  const { data, isFetching } = useRooms();
+  const { data, isFetching, isFetched } = useRooms();
   return (
     <Card>
       <CardHeader>
@@ -22,7 +22,7 @@ export function RoomList() {
             </span>
           </div>
         )}
-        {!isFetching && data.length === 0 && (
+        {isFetched && data.length === 0 && (
           <Alert variant="destructive">
             <TicketX />
             <AlertTitle>Você ainda não tem salas criadas.</AlertTitle>
