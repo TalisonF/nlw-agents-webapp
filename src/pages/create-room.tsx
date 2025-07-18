@@ -1,8 +1,13 @@
+import { Navigate } from 'react-router-dom';
 import { CreateRoomForm } from '@/components/create-room-form';
 import { Navbar } from '@/components/navbar';
 import { RoomList } from '@/components/room-list';
+import { getToken } from '@/lib/token';
 
 export function CreateRoom() {
+  if (!getToken()) {
+    return <Navigate replace to="/" />;
+  }
   return (
     <>
       <Navbar />

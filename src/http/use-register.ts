@@ -1,6 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
 import type { RegisterRequest } from './types/register-request';
-import type { registerResponse } from './types/register-response';
 
 export function useRegister() {
   return useMutation({
@@ -15,9 +14,13 @@ export function useRegister() {
           body: JSON.stringify(data),
         }
       );
-      const result: registerResponse = await response.json();
-
-      return result;
+      const success = response.status === 201;
+      const errorMessage =
+        !success &&
+        (response.status === 401
+          ? 'E-mail já cadastrado.'
+          : 'Falha ao criar usuário.');
+      return { success, errorMessage };
     },
   });
 }

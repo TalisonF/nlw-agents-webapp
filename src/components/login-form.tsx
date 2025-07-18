@@ -6,6 +6,7 @@ import { z } from 'zod/v4';
 import { Button } from '@/components/ui/button';
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -33,7 +34,11 @@ const loginSchema = z.object({
 
 type loginFormData = z.infer<typeof loginSchema>;
 
-export function LoginForm() {
+interface loginProps {
+  showRegisterForm: () => void;
+}
+
+export function LoginForm({ showRegisterForm }: loginProps) {
   const { mutateAsync: callLogin } = useLogin();
   const navigate = useNavigate();
 
@@ -62,10 +67,16 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Login to your account</CardTitle>
+        <CardTitle>Acesse sua conta</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          insira seu e-mail e senha abaixo para acessar sua conta
         </CardDescription>
+
+        <CardAction>
+          <Button onClick={() => showRegisterForm()} variant="link">
+            Cadastre-se
+          </Button>
+        </CardAction>
       </CardHeader>
       <Form {...loginForm}>
         <form onSubmit={loginForm.handleSubmit(handleLogin)}>
@@ -115,7 +126,7 @@ export function LoginForm() {
           </CardContent>
           <CardFooter className="mt-6 flex-col gap-2">
             <Button className="w-full" disabled={isSubmitting} type="submit">
-              Login
+              Entrar
             </Button>
           </CardFooter>
         </form>

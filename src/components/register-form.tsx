@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CheckCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle, CircleX } from 'lucide-react';
 import md5 from 'md5';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -37,13 +37,19 @@ const registerSchema = z.object({
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
-export function RegisterForm() {
+interface RegisterFormProps {
+  showLoginForm: () => void;
+}
+
+export function RegisterForm({ showLoginForm }: RegisterFormProps) {
   const [success, setSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
   const { mutateAsync: callRegister } = useRegister();
 
   const registerForm = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
     },
@@ -52,14 +58,16 @@ export function RegisterForm() {
   const { isSubmitting } = registerForm.formState;
   async function handleRegister({ name, email, password }: RegisterRequest) {
     const hashPassword = md5(password);
-    const { userId } = await callRegister({
+    const { success: successCreateUser, errorMessage } = await callRegister({
       name,
       email,
       password: hashPassword,
     });
-    if (userId) {
+
+    if (successCreateUser) {
       setSuccess(true);
-      registerForm.reset();
+    } else {
+      setError(errorMessage);
     }
   }
 
@@ -121,7 +129,7 @@ export function RegisterForm() {
                 render={({ field }) => {
                   return (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Senha</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
@@ -143,6 +151,14 @@ export function RegisterForm() {
         </Form>
       </CardContent>
       <CardFooter>
+        {error && (
+          <div className="flex items-center gap-5">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 p-2 dark:bg-red-900">
+              <CircleX />
+            </div>
+            {error}
+          </div>
+        )}
         {success && (
           <div className="flex items-center gap-5">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 p-2 dark:bg-green-900">
@@ -152,6 +168,13 @@ export function RegisterForm() {
           </div>
         )}
       </CardFooter>
+
+      <CardContent>
+        <Button onClick={() => showLoginForm()} variant="outline">
+          <ArrowLeft className="mr-2 size-4" />
+          Voltar
+        </Button>
+      </CardContent>
     </Card>
   );
 }
