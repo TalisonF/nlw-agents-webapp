@@ -19,6 +19,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "lucide-react": "^0.525.0",
+    "md5": "^2.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.60.0",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
     "@types/dom-speech-recognition": "^0.0.6",
+    "@types/md5": "^2.3.5",
     "@types/node": "^24.0.10",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",

@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { getToken } from '@/lib/token';
 import type { CreateQuestionRequest } from './types/create-question-request';
 import type { CreateQuestionResponse } from './types/create-question-response';
 import type { GetRoomsQuestionsResponse } from './types/get-questions-response';
@@ -14,6 +15,7 @@ export function useCreateQuestion(roomId: string) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            access_token: getToken(),
           },
           body: JSON.stringify(data),
         }

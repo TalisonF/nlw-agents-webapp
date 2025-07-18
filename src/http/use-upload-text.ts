@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { getToken } from '@/lib/token';
 import type { UploadTextRequest } from './types/upload-text-request';
 import type { UploadTextResponse } from './types/upload-text-response';
 
@@ -11,6 +12,7 @@ export function useUploadRoom(roomId: string) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            access_token: getToken(),
           },
           body: JSON.stringify(data),
         }

@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { getToken } from '@/lib/token';
 import type { CreateRoomRequest } from './types/create-room-request';
 
 export function useCreateRoom() {
@@ -12,6 +13,7 @@ export function useCreateRoom() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            access_token: getToken(),
           },
           body: JSON.stringify(data),
         }

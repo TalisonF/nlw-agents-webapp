@@ -3,6 +3,7 @@
 import { Radio, Radius, StopCircle } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { getToken } from '@/lib/token';
 import {
   Card,
   CardContent,
@@ -92,6 +93,9 @@ export function RecordAudio({ roomId }: RecordAudioProps) {
       `${import.meta.env.VITE_API_BASE_URL}/rooms/${roomId}/audio`,
       {
         method: 'POST',
+        headers: {
+          access_token: getToken(),
+        },
         body: formData,
       }
     );

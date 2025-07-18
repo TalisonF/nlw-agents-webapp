@@ -25,8 +25,10 @@ interface UploadTextProps {
 }
 
 const UploadTextSchema = z.object({
-  text: z.string().min(20, { message: 'Inclua no mínimo 20 caracteres.' }),
-  // .max(500, { message: 'O texto não pode ultrapassar 500 caracteres.' }),
+  text: z
+    .string()
+    .min(20, { message: 'Inclua no mínimo 20 caracteres.' })
+    .max(500, { message: 'O texto não pode ultrapassar 500 caracteres.' }),
 });
 
 type uploadTextFormData = z.infer<typeof UploadTextSchema>;
