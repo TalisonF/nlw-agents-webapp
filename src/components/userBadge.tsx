@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '@/http/use-user';
@@ -7,15 +8,17 @@ import { Skeleton } from './ui/skeleton';
 
 export function UserBadge() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const handleLogout = () => {
+    queryClient.invalidateQueries({ queryKey: ['get-user'] });
     deleteToken();
     navigate('/');
   };
 
-  const { data, isFetched, isFetching } = useUser();
+  const { data, isFetching } = useUser();
 
-  if (isFetched && data.id === '') {
+  if (!isFetching && data.id === '') {
     handleLogout();
   }
 
