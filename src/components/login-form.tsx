@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader } from 'lucide-react';
 import md5 from 'md5';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -126,7 +127,11 @@ export function LoginForm({ showRegisterForm }: loginProps) {
           </CardContent>
           <CardFooter className="mt-6 flex-col gap-2">
             <Button className="w-full" disabled={isSubmitting} type="submit">
-              Entrar
+              {isSubmitting ? (
+                <Loader className="size-4 animate-spin" />
+              ) : (
+                'Entrar'
+              )}
             </Button>
           </CardFooter>
         </form>

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft, CheckCircle, CircleX } from 'lucide-react';
+import { ArrowLeft, CheckCircle, CircleX, Loader } from 'lucide-react';
 import md5 from 'md5';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -144,7 +144,11 @@ export function RegisterForm({ showLoginForm }: RegisterFormProps) {
                 }}
               />
               <Button className="w-full" disabled={isSubmitting} type="submit">
-                Cadastrar
+                {isSubmitting ? (
+                  <Loader className="size-4 animate-spin" />
+                ) : (
+                  'Cadastrar'
+                )}
               </Button>
             </div>
           </form>
