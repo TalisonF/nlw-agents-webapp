@@ -8,7 +8,9 @@ RUN npm install --frozen-lockfile
 
 COPY . .
 
-ENV VITE_API_BASE_URL=http://api-let-me-ask.faraujo.com
+ARG VITE_API_BASE_URL
+
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 
 RUN npm run build
 
