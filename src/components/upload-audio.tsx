@@ -94,7 +94,7 @@ export function RecordAudio({ roomId }: RecordAudioProps) {
       {
         method: 'POST',
         headers: {
-          access_token: getToken(),
+          Authorization: getToken(),
         },
         body: formData,
       }

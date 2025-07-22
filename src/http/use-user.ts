@@ -10,7 +10,7 @@ export function useUser() {
         `${import.meta.env.VITE_API_BASE_URL}/user`,
         {
           headers: {
-            access_token: getToken(),
+            Authorization: getToken(),
           },
         }
       );

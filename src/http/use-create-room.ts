@@ -13,7 +13,7 @@ export function useCreateRoom() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            access_token: getToken(),
+            Authorization: getToken(),
           },
           body: JSON.stringify(data),
         }

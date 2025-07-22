@@ -10,7 +10,7 @@ export function useRooms() {
         `${import.meta.env.VITE_API_BASE_URL}/rooms`,
         {
           headers: {
-            access_token: getToken(),
+            Authorization: getToken(),
           },
         }
       );
