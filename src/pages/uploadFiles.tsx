@@ -3,7 +3,7 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import { Navbar } from '@/components/navbar';
 import { Button } from '@/components/ui/button';
 import { RecordAudio } from '@/components/upload-audio';
-import { FileUploadFormDemo } from '@/components/upload-document-form';
+import { UploadDocument } from '@/components/upload-document-form';
 import { UploadTextForm } from '@/components/upload-text-form';
 
 type UploadFilesParams = {
@@ -45,7 +45,7 @@ export function UploadFilesPage() {
           </div>
 
           <div className="my-8 flex flex-col items-center gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm">
-            <FileUploadFormDemo />
+            <UploadDocument roomId={params.roomId} />
           </div>
           <div className="gap grid items-start gap-8 sm:grid-cols-1 md:grid-cols-2">
             <UploadTextForm roomId={params.roomId} />

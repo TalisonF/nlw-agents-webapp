@@ -1,4 +1,5 @@
 import { Bot, Loader2, MessageSquare } from 'lucide-react';
+import Markdown from 'react-markdown';
 import { Card, CardContent } from '@/components/ui/card';
 import { dayjs } from '@/lib/dayjs';
 
@@ -53,9 +54,9 @@ export function QuestionItem({ question }: QuestionItemProps) {
                       </span>
                     </div>
                   ) : (
-                    <p className="whitespace-pre-line text-sm leading-relaxed">
-                      {question.answer}
-                    </p>
+                    <div className="whitespace-pre-line text-sm leading-relaxed">
+                      <Markdown>{question.answer}</Markdown>
+                    </div>
                   )}
                 </div>
               </div>

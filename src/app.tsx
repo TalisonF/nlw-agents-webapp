@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
 import { Home } from './pages/home';
 import { Room } from './pages/room';
 import { Rooms } from './pages/rooms';
@@ -21,6 +22,7 @@ export function App() {
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>
+      <Toaster />
     </ThemeProvider>
   );
 }

@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CloudUpload, X } from 'lucide-react';
-import { useCallback } from 'react';
+import { CloudUpload, Loader, X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod/v4';
 import { Button } from '@/components/ui/button';
 import {
@@ -23,6 +23,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { getToken } from '@/lib/token';
+
+type uploadDocumentProps = {
+  roomId: string;
+};
 
 const formSchema = z.object({
   files: z
@@ -36,7 +41,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export function FileUploadFormDemo() {
+export function UploadDocument({ roomId }: uploadDocumentProps) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,15 +49,52 @@ export function FileUploadFormDemo() {
     },
   });
 
-  const onSubmit = useCallback((data: FormValues) => {
+  async function upload(documentForUpload: Blob) {
+    const formData = new FormData();
+    formData.append('file', documentForUpload, 'audio.webm');
+
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/rooms/${roomId}/document`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: getToken(),
+        },
+        body: formData,
+      }
+    );
+
+    const result = await response.json();
+  }
+  const { isSubmitting } = form.formState;
+  async function handleUpload(data: FormValues) {
     console.log({ data });
-  }, []);
+    await upload(data.files[0]);
+    form.reset();
+    toast('Arquivo enviado:', {
+      description: (
+        <pre className="mt-2 w-80 rounded-md bg-accent/30 p-4 text-accent-foreground">
+          <code>
+            {JSON.stringify(
+              data.files.map((file) =>
+                file.name.length > 25
+                  ? `${file.name.slice(0, 25)}...`
+                  : file.name
+              ),
+              null,
+              2
+            )}
+          </code>
+        </pre>
+      ),
+    });
+  }
 
   return (
     <Form {...form}>
       <form
         className="w-full max-w-md px-6"
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleUpload)}
       >
         <FormField
           control={form.control}
@@ -110,8 +152,12 @@ export function FileUploadFormDemo() {
             </FormItem>
           )}
         />
-        <Button className="mt-4" type="button">
-          Enviar PDF
+        <Button className="mt-4" disabled={isSubmitting} type="submit">
+          {isSubmitting ? (
+            <Loader className="size-4 animate-spin" />
+          ) : (
+            'Enviar PDF'
+          )}
         </Button>
       </form>
     </Form>
