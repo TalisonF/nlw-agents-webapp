@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from '@radix-ui/react-accordion';
 import { AudioLines, File, RefreshCcw, Type } from 'lucide-react';
+import { useState } from 'react';
 import Markdown from 'react-markdown';
 import {
   Card,
@@ -23,6 +24,7 @@ interface RoomSummaryProps {
 }
 
 export function RoomSummary({ roomId }: RoomSummaryProps) {
+  const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
   const { data, isFetching, refetch } = useRoom(roomId);
   return (
     <Card>
@@ -36,7 +38,7 @@ export function RoomSummary({ roomId }: RoomSummaryProps) {
           </div>
         ) : (
           <>
-            <div className="flex justify-between">
+            <div className="flex items-center justify-between">
               <CardTitle>{data.room.name}</CardTitle>
               <div className="">
                 <Button onClick={() => refetch()} variant="outline">
@@ -45,12 +47,16 @@ export function RoomSummary({ roomId }: RoomSummaryProps) {
               </div>
             </div>
             <CardDescription className="mt-2 ml-3">
-              Resumo:
               <div className="whitespace-pre-line text-sm leading-relaxed">
                 <Markdown>{data.room.resumeIA}</Markdown>
               </div>
             </CardDescription>
-            <Accordion collapsible type="single">
+            <Accordion
+              collapsible
+              onClick={() => setIsOpenAccordion((state) => !state)}
+              type="single"
+              value={isOpenAccordion ? 'item-1' : ''}
+            >
               <AccordionItem value="item-1">
                 <AccordionTrigger>
                   <div className="mt-8 flex flex-row gap-5">
