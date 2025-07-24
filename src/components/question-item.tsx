@@ -50,7 +50,7 @@ export function QuestionItem({ question }: QuestionItemProps) {
                     <div className="flex items-center space-x-2">
                       <Loader2 className="size-4 animate-spin text-primary" />
                       <span className="text-primary text-sm italic">
-                        Gerando resposta...
+                        Gerando resposta
                       </span>
                     </div>
                   ) : (

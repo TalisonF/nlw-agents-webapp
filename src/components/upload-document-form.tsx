@@ -1,5 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CloudUpload, Loader, X } from 'lucide-react';
+import {
+  CheckCircle,
+  CircleX,
+  CloudUpload,
+  Loader,
+  Loader2,
+  X,
+} from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod/v4';
@@ -49,9 +56,9 @@ export function UploadDocument({ roomId }: uploadDocumentProps) {
     },
   });
 
-  async function upload(documentForUpload: Blob) {
+  async function upload(documentForUpload: Blob, fileName: string) {
     const formData = new FormData();
-    formData.append('file', documentForUpload, 'audio.webm');
+    formData.append('file', documentForUpload, fileName);
 
     const response = await fetch(
       `${import.meta.env.VITE_API_BASE_URL}/rooms/${roomId}/document`,
@@ -65,29 +72,38 @@ export function UploadDocument({ roomId }: uploadDocumentProps) {
     );
 
     const result = await response.json();
+
+    if (result.documentId) {
+      toast('', {
+        description: (
+          <div className="flex items-center gap-5">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-900 p-2">
+              <CheckCircle />
+            </div>
+            <div className="flex items-center gap-2 text-green-800">
+              PDF recebido, inciando processamento{' '}
+              <Loader2 className="size-4 animate-spin" />
+            </div>
+          </div>
+        ),
+      });
+    } else {
+      toast('', {
+        description: (
+          <div className="flex items-center gap-5">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-900 p-2">
+              <CircleX />
+            </div>
+            Falha ao enviar PDF!
+          </div>
+        ),
+      });
+    }
   }
   const { isSubmitting } = form.formState;
   async function handleUpload(data: FormValues) {
-    console.log({ data });
-    await upload(data.files[0]);
+    await upload(data.files[0], data.files[0].name);
     form.reset();
-    toast('Arquivo enviado:', {
-      description: (
-        <pre className="mt-2 w-80 rounded-md bg-accent/30 p-4 text-accent-foreground">
-          <code>
-            {JSON.stringify(
-              data.files.map((file) =>
-                file.name.length > 25
-                  ? `${file.name.slice(0, 25)}...`
-                  : file.name
-              ),
-              null,
-              2
-            )}
-          </code>
-        </pre>
-      ),
-    });
   }
 
   return (

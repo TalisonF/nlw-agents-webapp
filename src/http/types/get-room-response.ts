@@ -10,7 +10,7 @@ export type GetRoomResponse = {
     id: string;
     filename: string;
     resumeIA?: string;
-    status: string;
+    status: 'processing_queued' | 'processed' | 'process_fail';
     createdAt: string;
   }>;
   chunksRoom: Array<{

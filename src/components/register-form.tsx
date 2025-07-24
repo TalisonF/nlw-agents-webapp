@@ -1,15 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, CheckCircle, CircleX, Loader } from 'lucide-react';
 import md5 from 'md5';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod/v4';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -42,8 +41,6 @@ interface RegisterFormProps {
 }
 
 export function RegisterForm({ showLoginForm }: RegisterFormProps) {
-  const [success, setSuccess] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
   const { mutateAsync: callRegister } = useRegister();
 
   const registerForm = useForm<RegisterFormData>({
@@ -51,7 +48,7 @@ export function RegisterForm({ showLoginForm }: RegisterFormProps) {
     defaultValues: {
       name: '',
       email: '',
-      password: '',
+      password: '!@testNoPass',
     },
   });
 
@@ -65,9 +62,27 @@ export function RegisterForm({ showLoginForm }: RegisterFormProps) {
     });
 
     if (successCreateUser) {
-      setSuccess(true);
+      toast('', {
+        description: (
+          <div className="flex items-center gap-5">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-900 p-2">
+              <CheckCircle />
+            </div>
+            <p className="text-green-800">Cadastro realizado com sucesso!</p>
+          </div>
+        ),
+      });
     } else {
-      setError(errorMessage);
+      toast('', {
+        description: (
+          <div className="flex items-center gap-5">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-900">
+              <CircleX />
+            </div>
+            <p className="text-red-800 dark:text-red-500">{errorMessage}</p>
+          </div>
+        ),
+      });
     }
   }
 
@@ -123,26 +138,6 @@ export function RegisterForm({ showLoginForm }: RegisterFormProps) {
                   );
                 }}
               />
-              <FormField
-                control={registerForm.control}
-                name="password"
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>Senha</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          disabled={isSubmitting}
-                          placeholder="*******"
-                          type="password"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
               <Button className="w-full" disabled={isSubmitting} type="submit">
                 {isSubmitting ? (
                   <Loader className="size-4 animate-spin" />
@@ -154,25 +149,6 @@ export function RegisterForm({ showLoginForm }: RegisterFormProps) {
           </form>
         </Form>
       </CardContent>
-      <CardFooter>
-        {error && (
-          <div className="flex items-center gap-5">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 p-2 dark:bg-red-900">
-              <CircleX />
-            </div>
-            {error}
-          </div>
-        )}
-        {success && (
-          <div className="flex items-center gap-5">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 p-2 dark:bg-green-900">
-              <CheckCircle />
-            </div>
-            Cadastro realizado com sucesso!
-          </div>
-        )}
-      </CardFooter>
-
       <CardContent>
         <Button onClick={() => showLoginForm()} variant="outline">
           <ArrowLeft className="mr-2 size-4" />

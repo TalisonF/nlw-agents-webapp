@@ -1,4 +1,4 @@
-import { ArrowRight, Loader, TicketX } from 'lucide-react';
+import { ArrowRight, Loader, Ticket, TicketX } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +11,11 @@ export function RoomList() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Salas criadas</CardTitle>
+        <CardTitle>
+          <div className="flex items-center gap-3">
+            <Ticket /> Salas criadas
+          </div>
+        </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {isFetching && (

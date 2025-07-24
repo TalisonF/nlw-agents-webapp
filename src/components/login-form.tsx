@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader } from 'lucide-react';
+import { CircleX, Loader } from 'lucide-react';
 import md5 from 'md5';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { z } from 'zod/v4';
 import { Button } from '@/components/ui/button';
 import {
@@ -47,7 +48,7 @@ export function LoginForm({ showRegisterForm }: loginProps) {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
-      password: '',
+      password: '!@testNoPass',
     },
   });
 
@@ -62,6 +63,17 @@ export function LoginForm({ showRegisterForm }: loginProps) {
     if (accessToken) {
       setToken(accessToken);
       navigate('/rooms');
+    } else {
+      toast('', {
+        description: (
+          <div className="flex items-center gap-5">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 p-2 dark:bg-red-900">
+              <CircleX />
+            </div>
+            Usuario não encontrado!
+          </div>
+        ),
+      });
     }
   }
 
@@ -70,7 +82,7 @@ export function LoginForm({ showRegisterForm }: loginProps) {
       <CardHeader>
         <CardTitle>Acesse sua conta</CardTitle>
         <CardDescription>
-          insira seu e-mail e senha abaixo para acessar sua conta
+          insira seu e-mail abaixo para acessar suas salas
         </CardDescription>
 
         <CardAction>
@@ -96,26 +108,6 @@ export function LoginForm({ showRegisterForm }: loginProps) {
                           disabled={isSubmitting}
                           placeholder="user@email.com"
                           type="email"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-              <FormField
-                control={loginForm.control}
-                name="password"
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          disabled={isSubmitting}
-                          placeholder="*******"
-                          type="password"
                         />
                       </FormControl>
                       <FormMessage />

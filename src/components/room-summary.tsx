@@ -1,11 +1,21 @@
-import { AudioLines, File, Type } from 'lucide-react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@radix-ui/react-accordion';
+import { AudioLines, File, RefreshCcw, Type } from 'lucide-react';
+import Markdown from 'react-markdown';
 import {
   Card,
+  CardAction,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { useRoom } from '@/http/use-rom';
+import { DataTable } from './table-data';
+import { Button } from './ui/button';
 import { Skeleton } from './ui/skeleton';
 
 interface RoomSummaryProps {
@@ -13,7 +23,7 @@ interface RoomSummaryProps {
 }
 
 export function RoomSummary({ roomId }: RoomSummaryProps) {
-  const { data, isFetching } = useRoom(roomId);
+  const { data, isFetching, refetch } = useRoom(roomId);
   return (
     <Card>
       <CardHeader>
@@ -26,37 +36,56 @@ export function RoomSummary({ roomId }: RoomSummaryProps) {
           </div>
         ) : (
           <>
-            <CardTitle>Sala: {data.room.name}</CardTitle>
-            <CardDescription className="mt-2 ml-3">
-              <b>Resumo da sala:</b> {data.room.resumeIA}
-            </CardDescription>
-            <div className="mt-8 flex flex-row gap-5">
-              <span>Dados recebidos pela I.A:</span>
-              <div className="flex flex-row items-center gap-8">
-                <div className="flex flex-row items-center justify-center gap-2">
-                  <File />
-                  {data.documents.length}
-                </div>
-
-                <div className="flex flex-row items-center justify-center gap-2">
-                  <AudioLines />
-                  {
-                    data.chunksRoom.filter(
-                      (chunk) => chunk.typeOfInput === 'audio'
-                    ).length
-                  }
-                </div>
-
-                <div className="flex flex-row items-center justify-center gap-2">
-                  <Type />
-                  {
-                    data.chunksRoom.filter(
-                      (chunk) => chunk.typeOfInput === 'text'
-                    ).length
-                  }
-                </div>
+            <div className="flex justify-between">
+              <CardTitle>{data.room.name}</CardTitle>
+              <div className="">
+                <Button onClick={() => refetch()} variant="outline">
+                  <RefreshCcw />
+                </Button>
               </div>
             </div>
+            <CardDescription className="mt-2 ml-3">
+              Resumo:
+              <div className="whitespace-pre-line text-sm leading-relaxed">
+                <Markdown>{data.room.resumeIA}</Markdown>
+              </div>
+            </CardDescription>
+            <Accordion collapsible type="single">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>
+                  <div className="mt-8 flex flex-row gap-5">
+                    <span>Dados:</span>
+                    <div className="flex flex-row items-center gap-8">
+                      <div className="flex flex-row items-center justify-center gap-2">
+                        <File />
+                        {data.documents.length}
+                      </div>
+
+                      <div className="flex flex-row items-center justify-center gap-2">
+                        <AudioLines />
+                        {
+                          data.chunksRoom.filter(
+                            (chunk) => chunk.typeOfInput === 'audio'
+                          ).length
+                        }
+                      </div>
+
+                      <div className="flex flex-row items-center justify-center gap-2">
+                        <Type />
+                        {
+                          data.chunksRoom.filter(
+                            (chunk) => chunk.typeOfInput === 'text'
+                          ).length
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <DataTable data={data?.documents ?? []} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </>
         )}
       </CardHeader>
