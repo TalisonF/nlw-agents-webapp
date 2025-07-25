@@ -1,21 +1,21 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@radix-ui/react-accordion';
 import { AudioLines, File, RefreshCcw, Type } from 'lucide-react';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
 import {
   Card,
-  CardAction,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { useRoom } from '@/http/use-rom';
+import { ChunkTable } from './table-audio-text';
 import { DataTable } from './table-data';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from './ui/accordion';
 import { Button } from './ui/button';
 import { Skeleton } from './ui/skeleton';
 
@@ -59,7 +59,7 @@ export function RoomSummary({ roomId }: RoomSummaryProps) {
             >
               <AccordionItem value="item-1">
                 <AccordionTrigger>
-                  <div className="mt-8 flex flex-row gap-5">
+                  <div className="flex flex-row gap-5">
                     <span>Dados:</span>
                     <div className="flex flex-row items-center gap-8">
                       <div className="flex flex-row items-center justify-center gap-2">
@@ -89,6 +89,7 @@ export function RoomSummary({ roomId }: RoomSummaryProps) {
                 </AccordionTrigger>
                 <AccordionContent>
                   <DataTable data={data?.documents ?? []} />
+                  <ChunkTable data={data.chunksRoom ?? []} />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
